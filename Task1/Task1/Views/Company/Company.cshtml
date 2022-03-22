@@ -1,0 +1,129 @@
+@using System.Linq.Expressions
+@model Task1.Models.ModelViews.CompanyRateModelView
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor httpContextAccessor
+@{
+    ViewData["Title"] = @Model.Company.Name;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>@Model.Company.Name</title>
+</head>
+<body>
+<div>
+    <h1>@Model.Company.Name</h1>
+</div>
+@{
+    
+    try
+    {
+        var userId = Int32.Parse(httpContextAccessor.HttpContext.Request.Cookies["user_id"]);
+        var userRaiting = Model.Company.Ratings.First(rating => rating.AuthorId.Equals(userId));
+        <div>
+            <table>
+                <thead>
+                <tr>
+                    <th>Grade 1</th>
+                    <th>Grade 2</th>
+                    <th>Grade 3</th>
+                    <th>Grade 4</th>
+                    <th>Grade 5</th>
+                    <th>Total</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th>@userRaiting.Grade1</th>
+                    <th>@userRaiting.Grade2</th>
+                    <th>@userRaiting.Grade3</th>
+                    <th>@userRaiting.Grade4</th>
+                    <th>@userRaiting.Grade5</th>
+                    <th>@userRaiting.Total</th>
+                </tr>
+                </tbody>
+            </table>
+            <p>@userRaiting.Text</p>
+        </div>         
+    }
+    catch
+    {
+        <form asp-action="CompanyRate" asp-route-id="@Model.Company.Id" method="post" class="form-horizontal">
+            <div class="form-group">  
+                <label class="control-label">Grade1</label>  
+                <input max="5" min="1" asp-for="Rating.Grade1"  class="form-control" />  
+                <span asp-validation-for="Rating.Grade1" class="text-danger"></span>  
+            </div>  
+            <div class="form-group">  
+                <label class="control-label">Grade2</label>  
+                <input max="5" min="1" asp-for="Rating.Grade2" class="form-control" />  
+                <span asp-validation-for="Rating.Grade2" class="text-danger"></span>  
+            </div>  
+            <div class="form-group">  
+                <label class="control-label">Grade3</label>  
+                <input max="5" min="1" asp-for="Rating.Grade3" class="form-control" />  
+                <span asp-validation-for="Rating.Grade3" class="text-danger"></span>  
+            </div>  
+            <div class="form-group">  
+                <label class="control-label">Grade4</label>  
+                <input max="5" min="1" asp-for="Rating.Grade4" class="form-control" />  
+                <span asp-validation-for="Rating.Grade4" class="text-danger"></span>  
+            </div>  
+            <div class="form-group">  
+                <label class="control-label">Grade5</label>  
+                <input max="5" min="1" asp-for="Rating.Grade5" class="form-control" />  
+                <span asp-validation-for="Rating.Grade5" class="text-danger"></span>  
+            </div>  
+            <div class="form-group">  
+                <input type="submit" value="Submit" class="btn bg-primary" />  
+  
+            </div>  
+        </form>
+    }
+    
+}
+
+<div>
+    @foreach (var rating in @Model.Company.Ratings)
+    {
+        <div>
+            @{
+                try
+                {
+                    <h4>@rating.Author.Nickname</h4>
+                }
+                catch(Exception e)
+                {
+                    <p>@e</p>
+                }
+            }
+        </div>
+        <div>
+            <table>
+                <thead>
+                <tr>
+                    <th>Grade 1</th>
+                    <th>Grade 2</th>
+                    <th>Grade 3</th>
+                    <th>Grade 4</th>
+                    <th>Grade 5</th>
+                    <th>Total</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th>@rating.Grade1</th>
+                    <th>@rating.Grade2</th>
+                    <th>@rating.Grade3</th>
+                    <th>@rating.Grade4</th>
+                    <th>@rating.Grade5</th>
+                    <th>@rating.Total</th>
+                </tr>
+                </tbody>
+            </table>
+            <p>@rating.Text</p>
+        </div>                                     
+    }
+</div>
+</body>
+</html>

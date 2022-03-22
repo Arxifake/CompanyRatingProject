@@ -1,0 +1,30 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  .container{max-width: 100%}
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+.search {
+  margin-left: auto;
+  display: flex;
+  margin-right: 4px;
+}
+.top-btm{
+  margin: 10px;
+}
+a{
+  text-decoration: none;
+}

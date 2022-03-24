@@ -1,0 +1,18 @@
+@model dynamic
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+    var error = TempData["Error"] as string;
+}
+
+<h2>Login</h2>
+@if (!string.IsNullOrEmpty(error))
+{
+    <h3>@error</h3>
+}
+<form asp-action="login" method="post">
+    <input type="text" name="username" placeholder="UserName"/>
+    <input type="password" name="password" placeholder="Password"/>
+    <input type="submit" value="login"/>
+</form>

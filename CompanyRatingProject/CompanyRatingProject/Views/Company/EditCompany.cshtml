@@ -1,0 +1,22 @@
+@model DataAccess.Models.Company
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2>Edit Company @Model.Name</h2>
+<form asp-action="SaveEdit">
+    <input type="hidden" asp-for="Id" />
+    <div>
+        <label asp-for="Name"></label>
+        <input asp-for="Name"/>
+    </div>
+    <div>
+        <label asp-for="Description"></label>
+        <input asp-for="Description"/>
+    </div>
+    <div>
+        <input type="submit" value="Save"/>
+    </div>
+</form>

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Services.ServicesInterfaces;
 
-namespace Services.HomeControllerServices;
+namespace Services.HomeServices;
 
 public class ValidateLoginService:IValidateLoginService
 {

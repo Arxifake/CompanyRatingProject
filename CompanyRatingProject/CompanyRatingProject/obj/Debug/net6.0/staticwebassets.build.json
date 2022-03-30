@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "3ZWtHOlO/AzeFvhinqIKkpAeMfw46HmHkWDtzRROVH0=",
+  "Hash": "4doc3fz/Gc1GHzvWW/KPDfEYxF74ChGB08Mgs1Eb340=",
   "Source": "CompanyRatingProject",
   "BasePath": "_content/CompanyRatingProject",
   "Mode": "Default",
@@ -83,6 +83,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\favicon.ico"
+    },
+    {
+      "Identity": "C:\\MedeApp\\CompanyRatingProject\\CompanyRatingProject\\wwwroot\\img\\onlinelogomaker-032622-1253-1582.png",
+      "SourceId": "CompanyRatingProject",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\MedeApp\\CompanyRatingProject\\CompanyRatingProject\\wwwroot\\",
+      "BasePath": "_content/CompanyRatingProject",
+      "RelativePath": "img/onlinelogomaker-032622-1253-1582.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\img\\onlinelogomaker-032622-1253-1582.png"
     },
     {
       "Identity": "C:\\MedeApp\\CompanyRatingProject\\CompanyRatingProject\\wwwroot\\js\\site.js",

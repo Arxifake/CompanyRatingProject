@@ -1,12 +1,12 @@
-@model DTO.ModelViewsObjects.CompanyRateModelView 
+@model DTO.ModelViewsObjects.CompanyDto
 
 @{
     ViewBag.Title = "title";
     Layout = "_Layout";
 }
 
-<h2>Are you sure that u want to Delete @Model.Company.Name Company? </h2>
-<form asp-action="SubmitDelete" asp-route-id="@Model.Company.Id" method="post">
+<h2>Are you sure that u want to Delete @Model.Name Company? </h2>
+<form asp-action="SubmitDelete" asp-route-id="@Model.Id" method="post">
      <div class="form-group">  
          <input type="submit" value="Yes" class="btn bg-primary" />
      </div>

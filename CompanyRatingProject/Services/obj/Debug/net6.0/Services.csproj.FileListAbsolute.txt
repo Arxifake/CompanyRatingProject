@@ -15,5 +15,3 @@ C:\MedeApp\CompanyRatingProject\Services\obj\Debug\net6.0\ref\Services.dll
 C:\MedeApp\CompanyRatingProject\Services\obj\Debug\net6.0\Services.pdb
 C:\MedeApp\CompanyRatingProject\Services\bin\Debug\net6.0\DTO.dll
 C:\MedeApp\CompanyRatingProject\Services\bin\Debug\net6.0\DTO.pdb
-C:\MedeApp\CompanyRatingProject\Services\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.Cookies.dll
-C:\MedeApp\CompanyRatingProject\Services\bin\Debug\net6.0\Microsoft.Extensions.Features.dll

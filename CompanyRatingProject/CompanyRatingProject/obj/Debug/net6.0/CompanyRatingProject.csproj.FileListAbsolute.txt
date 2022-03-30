@@ -37,3 +37,8 @@ C:\MedeApp\CompanyRatingProject\CompanyRatingProject\bin\Debug\net6.0\Services.d
 C:\MedeApp\CompanyRatingProject\CompanyRatingProject\bin\Debug\net6.0\DTO.pdb
 C:\MedeApp\CompanyRatingProject\CompanyRatingProject\bin\Debug\net6.0\Services.pdb
 C:\MedeApp\CompanyRatingProject\CompanyRatingProject\bin\Debug\net6.0\System.Security.Permissions.dll
+C:\MedeApp\CompanyRatingProject\CompanyRatingProject\bin\Debug\net6.0\AutoMapper.dll
+C:\MedeApp\CompanyRatingProject\CompanyRatingProject\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+C:\MedeApp\CompanyRatingProject\CompanyRatingProject\bin\Debug\net6.0\NLog.dll
+C:\MedeApp\CompanyRatingProject\CompanyRatingProject\bin\Debug\net6.0\NLog.Extensions.Logging.dll
+C:\MedeApp\CompanyRatingProject\CompanyRatingProject\bin\Debug\net6.0\NLog.Web.AspNetCore.dll

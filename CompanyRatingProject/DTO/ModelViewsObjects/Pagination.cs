@@ -20,6 +20,10 @@ public class Pagination<T>:List<T>
     public static  Pagination<T> Create(IEnumerable<T> source, int pageIndex, int pageSize)
     {
         var count =  source.Count();
+        if (pageIndex>(int) Math.Ceiling(count / (double) pageSize))
+        {
+            pageIndex = (int) Math.Ceiling(count / (double) pageSize);
+        }
         var items = source.Skip((pageIndex-1) * pageSize).Take(pageSize).ToList();
         return new Pagination<T>(items, count, pageIndex, pageSize);
     }

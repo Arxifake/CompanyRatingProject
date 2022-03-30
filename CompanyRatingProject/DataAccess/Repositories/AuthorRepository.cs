@@ -8,8 +8,8 @@ namespace DataAccess.Repositories;
 public class AuthorRepository:IAuthorsRepository
 {
     public string Connection { get; set; }
-    public SqlConnection con;
-    public List<Author> authors = new List<Author>();
+    public SqlConnection Con;
+    public List<Author> Authors = new List<Author>();
     public AuthorRepository(string connection)
     {
         Connection = connection;
@@ -21,23 +21,38 @@ public class AuthorRepository:IAuthorsRepository
             con.Open();
             var cmd = new SqlCommand("GetAuthors",con);
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            authors.Clear();
+            Authors.Clear();
             SqlDataReader dr = cmd.ExecuteReader();
             while (dr.Read())
             {
                 Author author = new Author();
                 author.Id = Convert.ToInt32(dr["Id"]);
                 author.Nickname = Convert.ToString(dr["NickName"]);
-                authors.Add(author);
+                Authors.Add(author);
             }
             con.Close();
-            return authors.ToList();
+            return Authors.ToList();
         }
     }
 
     public Author GetAuthorById(int id)
     { 
-        return authors.First(author => author.Id.Equals(id));
+        using (SqlConnection con = new SqlConnection(Connection))
+        {
+            con.Open();
+            var cmd = new SqlCommand("GetAuthorById", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@Id", id);
+            Author author = new Author();
+            SqlDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                author.Id = Convert.ToInt32(dr["Id"]);
+                author.Nickname = dr["NickName"].ToString();
+                
+            }
+            return author;
+        }
     }
 
     public void NewAuthor(Author author)

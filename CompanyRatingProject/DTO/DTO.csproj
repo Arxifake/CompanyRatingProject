@@ -10,4 +10,11 @@
       <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="AutoMapper" Version="11.0.1" />
+      <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+      <PackageReference Include="NLog.Extensions.Logging" Version="5.0.0-rc2" />
+      <PackageReference Include="NLog.Web.AspNetCore" Version="5.0.0-rc2" />
+    </ItemGroup>
+
 </Project>

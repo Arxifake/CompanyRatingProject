@@ -1,0 +1,39 @@
+@model DTO.ModelViewsObjects.RatingDto
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2>@Model.Grade1</h2>
+<form asp-action="SaveEditRate">
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="CompanyId"/>
+    <div>
+        <label asp-for="Grade1"></label>
+        <input max="5" min="1" asp-for="Grade1"/>
+    </div>
+    <div>
+        <label asp-for="Grade2"></label>
+        <input max="5" min="1" asp-for="Grade2"/>
+    </div>
+    <div>
+        <label asp-for="Grade3"></label>
+        <input max="5" min="1" asp-for="Grade3"/>
+    </div>
+    <div>
+        <label asp-for="Grade4"></label>
+        <input max="5" min="1" asp-for="Grade4"/>
+    </div>
+    <div>
+        <label asp-for="Grade5"></label>
+        <input max="5" min="1" asp-for="Grade5"/>
+    </div>
+    <div>
+        <label asp-for="Text"></label>
+        <input asp-for="Text"/>
+    </div>
+    <div>
+        <input type="submit" value="Save"/>
+    </div>
+</form>

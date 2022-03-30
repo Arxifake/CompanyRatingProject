@@ -7,8 +7,8 @@ namespace DataAccess.Repositories
     public class CompanyRepository:ICompaniesRepository
     {
         public string Connection { get; set; }
-        public SqlConnection con;
-        public List<Company> companies = new List<Company>();
+        public SqlConnection Con;
+        public List<Company> Companies = new List<Company>();
         public CompanyRepository(string connection)
         {
             Connection = connection;
@@ -22,7 +22,7 @@ namespace DataAccess.Repositories
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
             
                 SqlDataReader dr = cmd.ExecuteReader();
-                companies.Clear();
+                Companies.Clear();
                     while (dr.Read())
                     {
                         Company company = new Company();
@@ -31,39 +31,73 @@ namespace DataAccess.Repositories
                         company.Description = dr["Description"].ToString();
                         if (Convert.IsDBNull(dr["TotalAVG"]))
                         {
-                            company.Grade1AVG = 0;
-                            company.Grade2AVG = 0;
-                            company.Grade3AVG = 0;
-                            company.Grade4AVG = 0;
-                            company.Grade5AVG = 0;
-                            company.TotalAVG = 0;  
+                            company.Grade1Avg = 0;
+                            company.Grade2Avg = 0;
+                            company.Grade3Avg = 0;
+                            company.Grade4Avg = 0;
+                            company.Grade5Avg = 0;
+                            company.TotalAvg = 0;  
                         }
                         else
                         {
 
-                            company.Grade1AVG = Math.Round(Convert.ToDouble(dr["Grade1AVG"]),2);
-                            company.Grade2AVG = Math.Round(Convert.ToDouble(dr["Grade2AVG"]),2);
-                            company.Grade3AVG = Math.Round(Convert.ToDouble(dr["Grade3AVG"]),2);
-                            company.Grade4AVG = Math.Round(Convert.ToDouble(dr["Grade4AVG"]),2);
-                            company.Grade5AVG = Math.Round(Convert.ToDouble(dr["Grade5AVG"]),2);
-                            company.TotalAVG = Math.Round(Convert.ToDouble(dr["TotalAVG"]),2);
+                            company.Grade1Avg = Math.Round(Convert.ToDouble(dr["Grade1AVG"]),2);
+                            company.Grade2Avg = Math.Round(Convert.ToDouble(dr["Grade2AVG"]),2);
+                            company.Grade3Avg = Math.Round(Convert.ToDouble(dr["Grade3AVG"]),2);
+                            company.Grade4Avg = Math.Round(Convert.ToDouble(dr["Grade4AVG"]),2);
+                            company.Grade5Avg = Math.Round(Convert.ToDouble(dr["Grade5AVG"]),2);
+                            company.TotalAvg = Math.Round(Convert.ToDouble(dr["TotalAVG"]),2);
                         }
 
-                        companies.Add(company);
+                        Companies.Add(company);
                     }
                 
 
-                companies.Sort();
-                companies.Reverse();
+                Companies.Sort();
+                Companies.Reverse();
                 con.Close();
-                return companies.ToList();
+                return Companies.ToList();
             }
             
         }
 
         public Company GetCompanyById(int id)
         {
-            return companies.Find(company => company.Id.Equals(id) );
+            using (SqlConnection con = new SqlConnection(Connection))
+            {
+                con.Open();
+                var cmd = new SqlCommand("GetCompanyById", con);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@ID", id);
+                Company company = new Company();
+                SqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    company.Id = Convert.ToInt32(dr["Id"]);
+                    company.Name = dr["Name"].ToString();
+                    company.Description = dr["Description"].ToString();
+                    if (Convert.IsDBNull(dr["TotalAVG"]))
+                    {
+                        company.Grade1Avg = 0;
+                        company.Grade2Avg = 0;
+                        company.Grade3Avg = 0;
+                        company.Grade4Avg = 0;
+                        company.Grade5Avg = 0;
+                        company.TotalAvg = 0;  
+                    }
+                    else
+                    {
+
+                        company.Grade1Avg = Math.Round(Convert.ToDouble(dr["Grade1AVG"]),2);
+                        company.Grade2Avg = Math.Round(Convert.ToDouble(dr["Grade2AVG"]),2);
+                        company.Grade3Avg = Math.Round(Convert.ToDouble(dr["Grade3AVG"]),2);
+                        company.Grade4Avg = Math.Round(Convert.ToDouble(dr["Grade4AVG"]),2);
+                        company.Grade5Avg = Math.Round(Convert.ToDouble(dr["Grade5AVG"]),2);
+                        company.TotalAvg = Math.Round(Convert.ToDouble(dr["TotalAVG"]),2);
+                    }
+                }
+                return company;
+            }
         }
 
         public void DeleteCompany(int id)

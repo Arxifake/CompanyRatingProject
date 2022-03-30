@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using CompanyRatingProject.Models;
-using Microsoft.AspNetCore.Authorization;
 using Services.ServicesInterfaces;
 
 namespace CompanyRatingProject.Controllers;
@@ -30,6 +29,7 @@ public class HomeController : Controller
         ViewData["Top25Sort"] = "top25";
         ViewData["Top50Sort"] = "top50";
         ViewData["CurrentFilter"] = searchString;
+        ViewData["topSort"] = top;
 
         var show =_homeService.ShowCompanies(top, current,searchString,pageNumber);
         _homeService.CheckUser(HttpContext);
@@ -63,5 +63,11 @@ public class HomeController : Controller
     public IActionResult Error()
     {
         return View(new ErrorViewModel {RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier});
+    }
+
+    public IActionResult AddManyCompanies()
+    {
+        _homeService.AddCompanies();
+        return RedirectToAction("Index");
     }
 }

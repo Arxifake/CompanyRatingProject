@@ -1,0 +1,23 @@
+@model DTO.ModelViewsObjects.ErrorDTO
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2 class="alert alert-danger">Status Code Error</h2>
+<h3>Error Details</h3>
+<div class="alert alert-danger">
+    <h5>Exeption Path</h5>
+    <hr/>
+    <p>@Model.ExceptionPath</p>
+</div>
+<div class="alert alert-danger">
+    <h5>Exeption Message</h5>
+    <hr/>
+    <p>@Model.ExceptionMessage</p>
+</div>
+<div class="alert alert-danger">
+    <h5>Exeption Query String</h5>
+    <hr/>
+    <p>@Model.QueryString</p>
+</div>

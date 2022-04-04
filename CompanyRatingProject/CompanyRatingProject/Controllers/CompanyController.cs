@@ -1,5 +1,3 @@
-using DataAccess.Interfaces;
-using DataAccess.Models;
 using DTO.ModelViewsObjects;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,36 +9,39 @@ public class CompanyController : Controller
 {
     private readonly ILogger<CompanyController> _logger;
     private readonly ICompanyService _companyService;
+    private readonly ICheckUserService _checkUserService;
 
 
-
-    public CompanyController(ILogger<CompanyController> logger, ICompanyService companyService)
+    public CompanyController(ILogger<CompanyController> logger, ICompanyService companyService,ICheckUserService checkUserService)
     {
         _logger = logger;
         _companyService = companyService;
+        _checkUserService = checkUserService;
     }
 
     // GET
-    public IActionResult Company(int id)
+    public IActionResult GetCompanyById(int id)
     {
-        var x =_companyService.GetCompanyRateView(id,HttpContext);
-        if (x.Company.Name!=null)
+
+        try
         {
-            return View(x);
+            _checkUserService.CheckUser(HttpContext);
+            var companyRateView = _companyService.GetCompanyRateView(id, HttpContext);
+            return View(companyRateView);
         }
-        else
+        catch (NullReferenceException e)
         {
             return RedirectToAction("Index", "Home");
         }
-        
     }
 
     //POST
-    public IActionResult CompanyRate(int id,[Bind]RatingDto rating)
+    public IActionResult AddCompanyRate([Bind]RatingDto rating)
     {
-        _companyService.PostCompanyRateView(id, HttpContext, rating);
-        return RedirectToAction("Company", new {id = id});
-    }
+        _companyService.PostCompanyRateView(HttpContext, rating);
+        return RedirectToAction("GetCompanyById", new {id = rating.CompanyId});
+
+        }
     //GET
     [Authorize]
     public IActionResult DeleteCompany(int id)
@@ -51,7 +52,7 @@ public class CompanyController : Controller
     [Authorize]
     public IActionResult SubmitDelete(int id)
     {
-        _companyService.DeleteCompany(id);
+        _companyService.DeleteCompany(id,HttpContext);
         return RedirectToAction("Index", "Home");
     }
     //GET
@@ -64,8 +65,9 @@ public class CompanyController : Controller
     [Authorize]
     public IActionResult SaveEdit([Bind] CompanyDto company)
     {
-        _companyService.SaveCompany(company);
-        return RedirectToAction("Company",new {id = company.Id});
+        _companyService.SaveCompany(company,HttpContext);
+        return RedirectToAction("GetCompanyById",new {id = company.Id});
+
     }
     //GET
     [Authorize]
@@ -77,24 +79,7 @@ public class CompanyController : Controller
     [Authorize]
     public IActionResult SaveCompany([Bind] CompanyDto company)
     {
-        _companyService.CreateCompany(company);
+        _companyService.CreateCompany(company, HttpContext);
         return RedirectToAction("Index","Home");
-    }
-
-    public IActionResult EditRating(int id)
-    {
-        return View(_companyService.EditRate(id));
-    }
-
-    public IActionResult SaveEditRate([Bind] RatingDto rate)
-    {
-        _companyService.SaveRate(rate);
-        return RedirectToAction("Company", new {id = rate.CompanyId});
-    }
-
-    public IActionResult AddRatings()
-    {
-        _companyService.AddRatings();
-        return RedirectToAction("Index", "Home");
     }
 }

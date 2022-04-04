@@ -5,7 +5,6 @@
     ViewData["Title"] = "Home Page";
     int i = @Model.PageSize*(@Model.PageIndex-1)+1;
 }
-<div><a asp-controller="Company" asp-action="AddRatings">AddCompanies</a></div>
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <div class="collapse navbar-collapse">
         <ul class="navbar-nav mr-auto top-list">
@@ -51,7 +50,7 @@
                     }
                 </td>
                 <td>
-                    <a asp-controller="Company" asp-action="Company" asp-route-id="@obj.Id">@obj.Name</a>
+                    <a asp-controller="Company" asp-action="GetCompanyById" asp-route-id="@obj.Id">@obj.Name</a>
                 </td>
                 <td>
                     @obj.Description

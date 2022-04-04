@@ -7,13 +7,11 @@ namespace Services.ServicesInterfaces;
 public interface ICompanyService
 {
     public CompanyRateModelView GetCompanyRateView(int id,HttpContext context);
-    public CompanyRateModelView PostCompanyRateView(int id, HttpContext context,RatingDto rating);
-    public RatingDto EditRate(int id);
-    public void SaveRate(RatingDto rate);
-    public void CreateCompany(CompanyDto company);
+    public CompanyRateModelView PostCompanyRateView(HttpContext context,RatingDto rating);
+    public void CreateCompany(CompanyDto company, HttpContext context);
     public CompanyDto GetCompany(int id);
-    public void SaveCompany(CompanyDto company);
-    public void DeleteCompany(int id);
-    public void AddRatings();
+    public void SaveCompany(CompanyDto company,HttpContext context);
+    public void DeleteCompany(int id, HttpContext context);
+
 
 }

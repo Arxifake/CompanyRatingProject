@@ -1,22 +1,22 @@
 @model DTO.ModelViewsObjects.CompanyDto
 
 @{
-    ViewBag.Title = "title";
+    ViewBag.Title = "Create New Company";
     Layout = "_Layout";
 }
 
 <h2>Create New Company</h2>
 <form asp-action="SaveCompany">
     <input type="hidden" asp-for="Id" />
-    <div>
-        <label asp-for="Name"></label>
-        <input asp-for="Name" required="required"/>
+    <div class="form-group col-md-3">
+        <label class="form-label" asp-for="Name"></label>
+        <input class="form-control" asp-for="Name" required="required"/>
     </div>
-    <div>
-        <label asp-for="Description"></label>
-        <input asp-for="Description" required="required"/>
+    <div class="form-group col-md-4">
+        <label class="form-label" asp-for="Description"></label>
+        <textarea class="form-control" asp-for="Description" rows="3" required="required"></textarea>
     </div>
-    <div>
-        <input type="submit" value="Save"/>
+    <div class="form-group rate">
+        <input class="btn btn-outline-primary" type="submit" value="Create"/>
     </div>
 </form>

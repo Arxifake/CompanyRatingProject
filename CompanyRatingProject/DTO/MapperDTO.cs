@@ -4,12 +4,12 @@ using DTO.ModelViewsObjects;
 
 namespace DTO;
 
-public class Mapper:Profile
+public class MapperDTO:Profile
 {
-    public Mapper()
+    public MapperDTO()
     {
         CreateMap<CompanyDto,Company>().ReverseMap();
         CreateMap<Rating,RatingDto>().ReverseMap();
-        CreateMap<Author, AuthorDto>().ReverseMap();
+        CreateMap<User, UserDto>().ReverseMap();
     }
 }

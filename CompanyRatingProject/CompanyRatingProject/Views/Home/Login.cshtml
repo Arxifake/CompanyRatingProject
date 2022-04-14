@@ -1,7 +1,7 @@
 @model dynamic
 
 @{
-    ViewBag.Title = "title";
+    ViewBag.Title = "Login";
     Layout = "_Layout";
     var error = TempData["Error"] as string;
 }
@@ -12,7 +12,16 @@
     <h3>@error</h3>
 }
 <form asp-action="login" method="post">
-    <input type="text" name="username" placeholder="UserName"/>
-    <input type="password" name="password" placeholder="Password"/>
-    <input type="submit" value="login"/>
+    <div class="form-group col-md-3 rate">
+        <input class="form-control" type="text" name="username" placeholder="UserName"/>
+    </div>
+    <div class="form-group col-md-3 rate">
+        <input class="form-control" type="password" name="password" placeholder="Password"/>
+    </div>
+    <div class="form-group rate">
+        <input class="btn btn-primary" type="submit" value="login"/>
+    </div>
+    
+    
+    
 </form>

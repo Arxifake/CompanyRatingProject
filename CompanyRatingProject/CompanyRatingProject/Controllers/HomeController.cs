@@ -10,14 +10,14 @@ public class HomeController : Controller
     private readonly ILogger<HomeController> _logger;
     private readonly IHomeService _homeService;
     private readonly ICheckUserService _checkUserService;
-    private readonly IValidateLoginService _validate;
+    private readonly ILoginValidationService _loginValidationService;
 
 
-    public HomeController(ILogger<HomeController> logger,IHomeService homeService,IValidateLoginService validate,ICheckUserService checkUserService)
+    public HomeController(ILogger<HomeController> logger,IHomeService homeService,ILoginValidationService loginValidationService,ICheckUserService checkUserService)
     {
         _logger = logger;
         _homeService = homeService;
-        _validate = validate;
+        _loginValidationService = loginValidationService;
         _checkUserService = checkUserService;
     }
 
@@ -26,12 +26,6 @@ public class HomeController : Controller
     
     public IActionResult Index(string top, string current, string searchString, int? pageNumber)
     {
-        ViewData[Constants.TopRatings.AllSort] = Constants.TopRatings.All;
-        ViewData[Constants.TopRatings.Top10Sort] = Constants.TopRatings.Top10;
-        ViewData[Constants.TopRatings.Top25Sort] = Constants.TopRatings.Top25;
-        ViewData[Constants.TopRatings.Top50Sort] = Constants.TopRatings.Top50;
-        ViewData[Constants.TopRatings.CurrentFilter] = searchString;
-        ViewData[Constants.TopRatings.TopSort] = top;
         var show =_homeService.ShowCompanies(top, current,searchString,pageNumber);
         _checkUserService.CheckUser(HttpContext);
         return View(show);
@@ -47,14 +41,14 @@ public class HomeController : Controller
     [HttpPost("login")]
     public IActionResult Validate(string username, string password)
     {
-        var valid = _validate.Validate(username, password, HttpContext);
-            if (valid =="Login Complete")
+        var valid = _loginValidationService.IsValid(username, password, HttpContext);
+            if (valid)
             {
                 return RedirectToAction("Index");
             }
             else
             {
-                TempData["Error"] = valid;
+                TempData["Error"] = "Incorrect login or password";
                 return View("Login") ;
             }
     }

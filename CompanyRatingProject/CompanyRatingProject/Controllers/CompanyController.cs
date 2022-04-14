@@ -1,3 +1,4 @@
+using CompanyRatingProject.Models;
 using DTO.ModelViewsObjects;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +21,7 @@ public class CompanyController : Controller
     }
 
     // GET
-    public IActionResult GetCompanyById(int id)
+    public IActionResult GetCompanyById(string id)
     {
 
         try
@@ -29,7 +30,7 @@ public class CompanyController : Controller
             var companyRateView = _companyService.GetCompanyRateView(id, HttpContext);
             return View(companyRateView);
         }
-        catch (NullReferenceException e)
+        catch (CompanyNotFoundException e)
         {
             return RedirectToAction("Index", "Home");
         }
@@ -44,20 +45,20 @@ public class CompanyController : Controller
         }
     //GET
     [Authorize]
-    public IActionResult DeleteCompany(int id)
+    public IActionResult DeleteCompany(string id)
     {
         return View(_companyService.GetCompany(id));
     }
     //POST
     [Authorize]
-    public IActionResult SubmitDelete(int id)
+    public IActionResult SubmitDelete(string id)
     {
         _companyService.DeleteCompany(id,HttpContext);
         return RedirectToAction("Index", "Home");
     }
     //GET
     [Authorize]
-    public IActionResult EditCompany(int id)
+    public IActionResult EditCompany(string id)
     {
         return View(_companyService.GetCompany(id));
     }

@@ -4,6 +4,6 @@ namespace Services.ServicesInterfaces;
 
 public interface IRatingService
 {
-    public RatingDto EditRate(int id);
+    public RatingDto EditRate(string id);
     public void SaveRate(RatingDto rate);
 }

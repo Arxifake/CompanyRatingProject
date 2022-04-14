@@ -8,17 +8,17 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <div class="collapse navbar-collapse">
         <ul class="navbar-nav mr-auto top-list">
-            <li class="nav-item top-btm"><a asp-action="Index" asp-route-top="@ViewData["Top10Sort"]"><button class="btn-group btn-list">TOP 10</button></a></li>
-            <li class="nav-item top-btm"><a asp-action="Index" asp-route-top="@ViewData["Top25Sort"]"><button class="btn-group btn-list ">TOP 25</button></a></li>
-            <li class="nav-item top-btm"><a asp-action="Index" asp-route-top="@ViewData["Top50Sort"]"><button class="btn-group btn-list ">TOP 50</button></a></li>
-            <li class="nav-item active top-btm"><a asp-action="Index" asp-route-top="@ViewData["AllSort"]"><button class="btn-group btn-list">All</button></a></li>
+            <li class="nav-item top-btm"><a asp-action="Index" asp-route-top="top10"><button class="btn-group btn-list">TOP 10</button></a></li>
+            <li class="nav-item top-btm"><a asp-action="Index" asp-route-top="top25"><button class="btn-group btn-list ">TOP 25</button></a></li>
+            <li class="nav-item top-btm"><a asp-action="Index" asp-route-top="top50"><button class="btn-group btn-list ">TOP 50</button></a></li>
+            <li class="nav-item active top-btm"><a asp-action="Index" asp-route-top="all"><button class="btn-group btn-list">All</button></a></li>
             @if (User.Identity.IsAuthenticated)
             {
                 <li class="nav-item active top-btm"><a asp-controller="Company" asp-action="AddCompany"><button class="btn-group btn-list">Create New Company</button></a></li>
             }
         </ul>
         <form class="my-2 my-lg-0 search">
-            <input class="form-control me-sm-2" type="text" placeholder="Search" aria-label="Search" name="SearchString" value="@ViewData["CurrentFilter"]"/>
+            <input class="form-control me-sm-2" type="text" placeholder="Search" aria-label="Search" name="SearchString" value="@Model.SearchString"/>
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
     </div>   
@@ -78,13 +78,13 @@
     }
     
     <a asp-action="Index"
-       asp-route-top="@ViewData["topSort"]"
+       asp-route-top="@Model.Top"
        asp-route-pageNumber="@(Model.PageIndex - 1)"
        class="btn btn-default @prevDisabled">
         Previous
     </a>
     <a asp-action="Index"
-       asp-route-top="@ViewData["topSort"]"
+       asp-route-top="@Model.Top"
        asp-route-pageNumber="@(Model.PageIndex + 1)"
        class="btn btn-default @nextDisabled">
         Next

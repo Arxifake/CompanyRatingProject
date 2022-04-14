@@ -6,9 +6,9 @@ using Services.ServicesInterfaces;
 
 namespace Services.HomeServices;
 
-public class ValidateLoginService:IValidateLoginService
+public class LoginValidationService:ILoginValidationService
 {
-    public string Validate(string username,string password,HttpContext context)
+    public bool IsValid(string username,string password,HttpContext context)
     {
         if (username =="test"&& password =="test")
         {
@@ -18,11 +18,11 @@ public class ValidateLoginService:IValidateLoginService
             var claimIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var claimPrincipal = new ClaimsPrincipal(claimIdentity);
             context.SignInAsync(claimPrincipal);
-            return "Login Complete";
+            return true;
         }
         else
         {
-            return "Username or Password is invalid";
+            return false;
         }
     }
 }

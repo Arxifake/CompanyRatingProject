@@ -10,13 +10,13 @@ namespace Services.CheckUserServices;
 
 public class CheckUserService:ICheckUserService
 {
-    private readonly IAuthorsRepository _authorsRepository;
+    private readonly IUsersRepository _usersRepository;
     private readonly INicknameRepository _nicknameRepository;
     private readonly ILogger<CheckUserService> _logger;
 
-    public CheckUserService(IAuthorsRepository authorsRepository, INicknameRepository nicknameRepository, ILogger<CheckUserService> logger)
+    public CheckUserService(IUsersRepository usersRepository, INicknameRepository nicknameRepository, ILogger<CheckUserService> logger)
     {
-        _authorsRepository = authorsRepository;
+        _usersRepository = usersRepository;
         _nicknameRepository = nicknameRepository;
         _logger = logger;
     }
@@ -26,12 +26,12 @@ public class CheckUserService:ICheckUserService
         {
             CookieOptions cookieOptions = new CookieOptions();
             cookieOptions.Expires = DateTimeOffset.Now.AddMonths(12);
-            Author author = new Author();
+            User user = new User();
             //Nickname name = _nicknameRepository.GetNickname();
             //author.Nickname =name.Name ;
-            author.Nickname = "MishaTest";
-            _authorsRepository.NewAuthor(author);
-            var newAuthor =_authorsRepository.AuthorList().Last().Id;
+            user.Nickname = "MishaTest";
+            _usersRepository.NewUser(user);
+            var newAuthor =_usersRepository.UsersList().Last().Id;
             context.Response.Cookies.Append("user_id",newAuthor.ToString(),cookieOptions);
             _logger.LogInformation($"Create new User with user id {newAuthor}");
         }

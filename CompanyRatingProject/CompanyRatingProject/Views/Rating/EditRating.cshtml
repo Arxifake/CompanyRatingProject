@@ -5,35 +5,75 @@
     Layout = "_Layout";
 }
 
-<h2>@Model.Grade1</h2>
+<h2>Edit Your Rate</h2>
 <form asp-action="SaveEditRate">
     <input type="hidden" asp-for="Id" />
     <input type="hidden" asp-for="CompanyId"/>
-    <div>
-        <label asp-for="Grade1"></label>
-        <input max="5" min="1" asp-for="Grade1"/>
-    </div>
-    <div>
-        <label asp-for="Grade2"></label>
-        <input max="5" min="1" asp-for="Grade2"/>
-    </div>
-    <div>
-        <label asp-for="Grade3"></label>
-        <input max="5" min="1" asp-for="Grade3"/>
-    </div>
-    <div>
-        <label asp-for="Grade4"></label>
-        <input max="5" min="1" asp-for="Grade4"/>
-    </div>
-    <div>
-        <label asp-for="Grade5"></label>
-        <input max="5" min="1" asp-for="Grade5"/>
-    </div>
-    <div>
-        <label asp-for="Text"></label>
-        <input asp-for="Text"/>
-    </div>
-    <div>
-        <input type="submit" value="Save"/>
-    </div>
+    <input type="hidden" asp-for="UserId"/>
+   <div class="row grades">
+                   <div class="form-group col-md-2">
+                                   <label class="control-label">Compensation</label>
+                                   <select class="form-control" asp-for="Grade1">
+                                       <option>1</option>
+                                       <option>2</option>
+                                       <option>3</option>
+                                       <option>4</option>
+                                       <option>5</option>
+                                   </select>
+                                   <span asp-validation-for="Grade1" class="text-danger"></span>
+                               </div>
+                               <div class="form-group col-md-2">
+                                   <label class="control-label">Working conditions</label>
+                                   <select class="form-control" asp-for="Grade2">
+                                       <option>1</option>
+                                       <option>2</option>
+                                       <option>3</option>
+                                       <option>4</option>
+                                       <option>5</option>
+                                   </select>
+                                   <span asp-validation-for="Grade2" class="text-danger"></span>
+                               </div>
+                               <div class="form-group col-md-2">
+                                   <label class="control-label">Career</label>
+                                   <select class="form-control" asp-for="Grade3">
+                                       <option>1</option>
+                                       <option>2</option>
+                                       <option>3</option>
+                                       <option>4</option>
+                                       <option>5</option>
+                                   </select>
+                                   <span asp-validation-for="Grade3" class="text-danger"></span>
+                               </div>
+                               <div class="form-group col-md-2">
+                                   <label class="control-label">Project</label>
+                                   <select class="form-control" asp-for="Grade4">
+                                       <option>1</option>
+                                       <option>2</option>
+                                       <option>3</option>
+                                       <option>4</option>
+                                       <option>5</option>
+                                   </select>
+                                   <span asp-validation-for="Grade4" class="text-danger"></span>
+                               </div>
+                               <div class="form-group col-md-2">
+                                   <label class="control-label">Loyalty</label>
+                                   <select class="form-control" asp-for="Grade5">
+                                       <option>1</option>
+                                       <option>2</option>
+                                       <option>3</option>
+                                       <option>4</option>
+                                       <option>5</option>
+                                   </select>
+                                   <span asp-validation-for="Grade5" class="text-danger"></span>
+                               </div>
+               </div>
+               
+               <div class="form-group">
+                   <label class="control-label">Comment</label>
+                   <input asp-for="Text" class="form-control"/>
+               </div>
+               <div class="form-group rate">
+                   <input type="submit" value="Save" class="btn bg-primary"/>
+   
+               </div>
 </form>

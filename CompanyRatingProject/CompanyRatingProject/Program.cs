@@ -1,8 +1,10 @@
 using AutoMapper;
 using DataAccess.Interfaces;
 using DataAccess.Repositories;
+using DTO;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using MongoDB.Driver;
 using NLog.Web;
 using Services.CheckUserServices;
 using Services.CompanyServices;
@@ -10,12 +12,12 @@ using Services.ErrorServices;
 using Services.HomeServices;
 using Services.RatingServices;
 using Services.ServicesInterfaces;
-using Mapper = DTO.Mapper;
+using Mapper = DTO.MapperDTO;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-string connection = builder.Configuration.GetConnectionString("DefaultConnection");
+string connection = "mongodb://localhost:27017/";
 builder.Host.ConfigureLogging(logging =>
 {
     logging.ClearProviders();
@@ -23,21 +25,21 @@ builder.Host.ConfigureLogging(logging =>
 }).UseNLog();
 var mappingConfig = new MapperConfiguration(mc =>
 {
-    mc.AddProfile(new Mapper());
+    mc.AddProfile(new MapperDTO());
 });
 
 IMapper mapper = mappingConfig.CreateMapper();
     builder.Services.AddSingleton(mapper);
     builder.Services.AddSingleton<ICompaniesRepository>(_ => new CompanyRepository(connection));
     builder.Services.AddSingleton<IRatingsRepository>(_ => new RatingRepository(connection));
-    builder.Services.AddSingleton<IAuthorsRepository>(_ => new AuthorRepository(connection));
+    builder.Services.AddSingleton<IUsersRepository>(_ => new UserRepository(connection));
     builder.Services.AddSingleton<INicknameRepository>(_ => new NicknameRepository(connection));
     builder.Services.AddSingleton<IHomeService,HomeService>();
     builder.Services.AddSingleton<ICompanyService,CompanyService>();
     builder.Services.AddSingleton<IRatingService, RatingService>();
     builder.Services.AddSingleton<ICheckUserService, CheckUserService>();
     builder.Services.AddSingleton<IErrorService, ErrorService>();
-    builder.Services.AddSingleton<IValidateLoginService, ValidateLoginService>();
+    builder.Services.AddSingleton<ILoginValidationService, LoginValidationService>();
     builder.Services.TryAddSingleton<IHttpContextAccessor,HttpContextAccessor>();
     builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
     {
@@ -49,7 +51,7 @@ IMapper mapper = mappingConfig.CreateMapper();
 
 var app = builder.Build();
 
-app.Environment.EnvironmentName = "Production";
+//app.Environment.EnvironmentName = "Production";
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -70,3 +72,4 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.Run();
+public partial class Program{}

@@ -4,10 +4,9 @@ namespace DataAccess.Interfaces
 {
     public interface IRatingsRepository
     {
-        public List<Rating> GetRatingsByCompanyId(int id);
+        public List<Rating> GetRatingsByCompanyId(string id);
         public void AddRate(Rating rating);
-        public Rating GetRatingByAuthorId(int id,int companyId);
-        public Rating GetRatingById(int id);
+        public Rating GetRatingById(string id);
         public void ChangeRate(Rating rate);
 
     }

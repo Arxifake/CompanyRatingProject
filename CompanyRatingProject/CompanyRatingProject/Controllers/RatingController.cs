@@ -16,7 +16,7 @@ public class RatingController : Controller
         _logger = logger;
     }
     // GET
-    public IActionResult EditRating(int id)
+    public IActionResult EditRating(string id)
     {
         return View(_ratingService.EditRate(id));
     }

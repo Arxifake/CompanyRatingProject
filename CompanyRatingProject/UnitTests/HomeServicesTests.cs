@@ -3,12 +3,13 @@ using AutoMapper;
 using Castle.Core.Internal;
 using DataAccess.Interfaces;
 using DataAccess.Models;
+using DTO;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 using Services.HomeServices;
 using Services.ServicesInterfaces;
-using Mapper = DTO.Mapper;
+using Mapper = DTO.MapperDTO;
 
 namespace UnitTests;
 
@@ -33,7 +34,7 @@ public class HomeServicesTests
         var mockLogger = new Mock<ILogger<HomeService>>();
         var mappingConfig = new MapperConfiguration(mc =>
         {
-            mc.AddProfile(new Mapper());
+            mc.AddProfile(new MapperDTO());
         });
         IMapper mapper = new AutoMapper.Mapper(mappingConfig);
         

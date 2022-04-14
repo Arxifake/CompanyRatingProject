@@ -2,7 +2,7 @@ namespace DTO.ModelViewsObjects;
 
 public class RatingDto
 {
-    public int Id { get; set; }
+    public string Id { get; set; }
     public int Grade1 { get; set; }
     public int Grade2 { get; set; }
     public int Grade3 { get; set; }
@@ -12,7 +12,7 @@ public class RatingDto
     public string Text { get; set; }
     public DateTime DateTime { get; set; }
     public CompanyDto Company { get; set; }
-    public int CompanyId { get; set; }
-    public AuthorDto Author { get; set; }
-    public int AuthorId { get; set; }
+    public string CompanyId { get; set; }
+    public UserDto User { get; set; }
+    public string UserId { get; set; }
 }

@@ -77,7 +77,7 @@ public class HomeService:IHomeService
             companiesList = companiesList.Where(s => s.Name.Contains(searchString));
         }
         _logger.LogInformation($"Return {companiesList.Count()} objects ");
-        return Pagination<CompanyDto>.Create(companiesList, pageNumber ?? 1, _pageSize);
+        return Pagination<CompanyDto>.Create(companiesList, pageNumber ?? 1, _pageSize,top, searchString);
          
     }
 }

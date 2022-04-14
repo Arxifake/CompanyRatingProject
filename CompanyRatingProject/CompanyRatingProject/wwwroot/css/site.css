@@ -48,3 +48,29 @@ a{
   color: #f2f2f2;
   border-radius: 7px;
 }
+.rate{
+  margin-top: 30px;
+}
+.block1 {
+  float: left;
+  display: block;
+  width: 300px;
+  margin: 2px;
+}
+
+.block2 {
+  
+  float: right;
+  display: block;
+  width: 300px;
+  margin: 2px;
+}
+.table-dark{
+  --bs-table-bg: #558387;
+}
+.your-rate-table{
+  --bs-table-bg: #bdc742;
+}
+.grades{
+  justify-content: center;
+}

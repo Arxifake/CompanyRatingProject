@@ -1,26 +1,28 @@
 using DTO.ModelViewsObjects;
 using Microsoft.AspNetCore.Mvc;
-using Services.RatingServices;
 using Services.ServicesInterfaces;
 
 namespace CompanyRatingProject.Controllers;
 
+[ApiController]
+[Route("[controller]")]
 public class RatingController : Controller
 {
     private readonly IRatingService _ratingService;
-    private readonly ILogger<RatingController> _logger;
 
-    public RatingController(IRatingService ratingService,ILogger<RatingController> logger)
+    public RatingController(IRatingService ratingService)
     {
         _ratingService = ratingService;
-        _logger = logger;
     }
-    // GET
-    public IActionResult EditRating(string id)
+    [HttpGet]
+    [Route("EditRating/{id}")]
+    public RatingDto EditRating(string id)
     {
-        return View(_ratingService.EditRate(id));
+        return _ratingService.EditRate(id);
     }
-
+    
+    [HttpPost]
+    [Route("EditSubmit")]
     public IActionResult SaveEditRate([Bind] RatingDto rate)
     {
         _ratingService.SaveRate(rate);

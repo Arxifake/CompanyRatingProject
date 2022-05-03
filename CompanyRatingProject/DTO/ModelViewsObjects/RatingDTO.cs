@@ -10,9 +10,9 @@ public class RatingDto
     public int Grade5 { get; set; }
     public double Total { get; set; }
     public string Text { get; set; }
-    public DateTime DateTime { get; set; }
-    public CompanyDto Company { get; set; }
+    public DateTime? DateTime { get; set; }
+    public CompanyDto? Company { get; set; }
     public string CompanyId { get; set; }
-    public UserDto User { get; set; }
+    public UserDto? User { get; set; }
     public string UserId { get; set; }
 }

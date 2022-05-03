@@ -1,10 +1,16 @@
+using System;
 using AutoMapper;
 using DataAccess.Interfaces;
 using DataAccess.Repositories;
 using DTO;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.SpaServices.AngularCli;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using MongoDB.Driver;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using NLog.Web;
 using Services.CheckUserServices;
 using Services.CompanyServices;
@@ -16,6 +22,7 @@ using Mapper = DTO.MapperDTO;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
+builder.Services.AddSpaStaticFiles(configuration=>configuration.RootPath="ClientApp/dist");
 builder.Services.AddControllersWithViews();
 string connection = "mongodb://localhost:27017/";
 builder.Host.ConfigureLogging(logging =>
@@ -44,7 +51,7 @@ IMapper mapper = mappingConfig.CreateMapper();
     builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
     {
         options.LoginPath = "/login";
-        options.ExpireTimeSpan = TimeSpan.FromMinutes(2);
+        options.ExpireTimeSpan = TimeSpan.FromHours(2);
         options.SlidingExpiration = true;
         
     });
@@ -61,15 +68,32 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+if (!app.Environment.IsDevelopment())
+{
+    app.UseSpaStaticFiles();
+}
 
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
 app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    name:"default","{controller=Home}/{action=Index}");
+
+
+app.UseSpa(spa =>
+{
+    spa.Options.SourcePath = "ClientApp";
+ 
+    if (app.Environment.IsDevelopment())
+    {
+        spa.UseAngularCliServer(npmScript: "start");
+    }
+});
 app.Run();
 public partial class Program{}

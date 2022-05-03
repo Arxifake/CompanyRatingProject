@@ -6,81 +6,77 @@ using Services.ServicesInterfaces;
 
 namespace CompanyRatingProject.Controllers;
 
+[ApiController]
+[Route("[controller]")]
 public class CompanyController : Controller
 {
-    private readonly ILogger<CompanyController> _logger;
     private readonly ICompanyService _companyService;
     private readonly ICheckUserService _checkUserService;
 
 
-    public CompanyController(ILogger<CompanyController> logger, ICompanyService companyService,ICheckUserService checkUserService)
+    public CompanyController( ICompanyService companyService,ICheckUserService checkUserService)
     {
-        _logger = logger;
         _companyService = companyService;
         _checkUserService = checkUserService;
     }
 
-    // GET
-    public IActionResult GetCompanyById(string id)
+    [Route("Get/{id}")]
+    [HttpGet]
+    public CompanyRateModelView GetCompanyById(string id)
     {
 
         try
         {
             _checkUserService.CheckUser(HttpContext);
             var companyRateView = _companyService.GetCompanyRateView(id, HttpContext);
-            return View(companyRateView);
+            return companyRateView;
         }
         catch (CompanyNotFoundException e)
         {
-            return RedirectToAction("Index", "Home");
+            return null;
         }
     }
-
-    //POST
-    public IActionResult AddCompanyRate([Bind]RatingDto rating)
+    
+    [HttpPost]
+    [Route("Rate")]
+    public IActionResult AddCompanyRate([FromBody]RateDto rating)
     {
         _companyService.PostCompanyRateView(HttpContext, rating);
-        return RedirectToAction("GetCompanyById", new {id = rating.CompanyId});
+        return Ok();
 
-        }
-    //GET
-    [Authorize]
-    public IActionResult DeleteCompany(string id)
-    {
-        return View(_companyService.GetCompany(id));
     }
-    //POST
+    [Route("GetInfo/{id}")]
+    [HttpGet]
     [Authorize]
-    public IActionResult SubmitDelete(string id)
+    public CompanyMainDto GetCompanyInfo(string id)
     {
-        _companyService.DeleteCompany(id,HttpContext);
-        return RedirectToAction("Index", "Home");
+        return _companyService.GetCompany(id);
     }
-    //GET
+    [HttpPost]
     [Authorize]
-    public IActionResult EditCompany(string id)
+    [Route("DeleteCompany")]
+    public IActionResult SubmitDelete([FromBody]CompanyIdDto id)
     {
-        return View(_companyService.GetCompany(id));
+        _companyService.DeleteCompany(id.Id,HttpContext);
+        return Ok();
     }
-    //POST
+    
+    [HttpPost]
     [Authorize]
-    public IActionResult SaveEdit([Bind] CompanyDto company)
+    [Route("EditChange")]
+    public IActionResult SaveEdit([FromBody] CompanyMainDto company)
     {
         _companyService.SaveCompany(company,HttpContext);
-        return RedirectToAction("GetCompanyById",new {id = company.Id});
+        return Ok();
 
     }
-    //GET
+    
+    [HttpPost]
     [Authorize]
-    public IActionResult AddCompany()
-    {
-        return View();
-    }
-    //POST
-    [Authorize]
-    public IActionResult SaveCompany([Bind] CompanyDto company)
+    [Route("Create")]
+    public IActionResult SaveCompany([FromBody] CompanyCreateDto company)
     {
         _companyService.CreateCompany(company, HttpContext);
-        return RedirectToAction("Index","Home");
+        return Ok();
     }
 }

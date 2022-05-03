@@ -20,10 +20,10 @@ public class HomeService:IHomeService
         _mapper = mapper;
         _logger = logger;
     }
-    public Pagination<CompanyDto> ShowCompanies(string top, string current, string searchString, int? pageNumber)
+    public Pagination<CompanyDto> ShowCompanies(string? top, string? current, string? searchString, int? pageNumber)
     {
         _logger.LogInformation("Enter in ShowCompanies method");
-        if (searchString != null)
+        if (!string.IsNullOrEmpty(searchString))
         {
             pageNumber = 1;
         }
@@ -31,53 +31,34 @@ public class HomeService:IHomeService
         {
             searchString = current;
         }
-        IEnumerable<CompanyDto> companiesList = _mapper.Map<IEnumerable<CompanyDto>>(_companiesRepository.CompanyList());
+        var companiesList = new List<CompanyDto>();
         switch(top)
         {
             case "all":
-                
-                companiesList = _mapper.Map<IEnumerable<CompanyDto>>(_companiesRepository.CompanyList());
+                companiesList = _mapper.Map<IEnumerable<CompanyDto>>(_companiesRepository.CompanyList()).ToList();
                 break;
             case "top10":
-                try
-                {
-                    companiesList = _mapper.Map<IEnumerable<CompanyDto>>(_companiesRepository.CompanyList().GetRange(0, 10));
-                    break;
-                }
-                catch
-                {
-                    companiesList = _mapper.Map<IEnumerable<CompanyDto>>(_companiesRepository.CompanyList());
-                    break;
-                }
+                companiesList = _mapper.Map<IEnumerable<CompanyDto>>(_companiesRepository.CompanyList().Take(10)).ToList();
+                break;
+                
             case "top25":
-                try
-                {
-                    companiesList = _mapper.Map<IEnumerable<CompanyDto>>(_companiesRepository.CompanyList().GetRange(0, 25));
-                    break;
-                }
-                catch
-                {
-                    companiesList = _mapper.Map<IEnumerable<CompanyDto>>(_companiesRepository.CompanyList());
-                    break;
-                }
+                companiesList = _mapper.Map<IEnumerable<CompanyDto>>(_companiesRepository.CompanyList().Take(25)).ToList();
+                break;
+                
             case "top50":
-                try
-                {
-                    companiesList = _mapper.Map<IEnumerable<CompanyDto>>(_companiesRepository.CompanyList().GetRange(0, 50));
-                    break;
-                }
-                catch
-                {
-                    companiesList = _mapper.Map<IEnumerable<CompanyDto>>(_companiesRepository.CompanyList());
-                    break;
-                }
+                companiesList = _mapper.Map<IEnumerable<CompanyDto>>(_companiesRepository.CompanyList().Take(50)).ToList();
+                break;
+                
+            default:
+                companiesList = _mapper.Map<IEnumerable<CompanyDto>>(_companiesRepository.CompanyList()).ToList(); 
+                break;
         }
         if (!String.IsNullOrEmpty(searchString))
         {
-            companiesList = companiesList.Where(s => s.Name.Contains(searchString));
+            companiesList = companiesList.Where(s => s.Name.Contains(searchString)).ToList();
         }
         _logger.LogInformation($"Return {companiesList.Count()} objects ");
         return Pagination<CompanyDto>.Create(companiesList, pageNumber ?? 1, _pageSize,top, searchString);
-         
+
     }
 }

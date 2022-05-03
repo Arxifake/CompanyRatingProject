@@ -1,6 +1,4 @@
-using DataAccess.Models;
 using DTO.ModelViewsObjects;
-using Microsoft.AspNetCore.Http;
 
 namespace Services.ServicesInterfaces;
 

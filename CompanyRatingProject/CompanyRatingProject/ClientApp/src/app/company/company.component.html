@@ -1,0 +1,127 @@
+<h1>{{companyrate.company.name}}</h1>
+<h4>Company Description:</h4>
+<p>{{companyrate.company.description}}</p>
+<br>
+<div *ngIf="companyrate.rating.id!=null;else elseBlock">
+    <h4>Your Rate</h4>
+    <button [routerLink]= "['/editRate/'+companyrate.rating.id]">Change Rate</button>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Compensation</th>
+            <th>Working conditions</th>
+            <th>Career</th>
+            <th>Project</th>
+            <th>Loyalty</th>
+            <th>Total</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr >
+            <td>{{companyrate.rating.grade1}}</td>
+            <td>{{companyrate.rating.grade2}}</td>
+            <td>{{companyrate.rating.grade3}}</td>
+            <td>{{companyrate.rating.grade4}}</td>
+            <td>{{companyrate.rating.grade5}}</td>
+            <td>{{companyrate.rating.total}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<ng-template #elseBlock>
+    <div>
+        <h4>Rate Company</h4>
+        <form [formGroup]="rateCompany" (ngSubmit)="sendRateCompany(rateCompany.value)" class="form-horizontal">
+            <div class="row grades">
+                <div class="form-group col-md-2">
+                    <label class="control-label">Compensation</label>
+                    <select class="form-control" formControlName="Grade1">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-2">
+                    <label class="control-label">Working conditions</label>
+                    <select class="form-control" formControlName="Grade2">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-2">
+                    <label class="control-label">Career</label>
+                    <select class="form-control" formControlName="Grade3">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-2">
+                    <label class="control-label">Project</label>
+                    <select class="form-control" formControlName="Grade4">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-2">
+                    <label class="control-label">Loyalty</label>
+                    <select class="form-control" formControlName="Grade5">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Comment</label>
+                <input formControlName="Text" class="form-control"/>
+            </div>
+            <div class="form-group rate">
+                <input type="submit" value="Rate" class="btn bg-primary"/>
+
+            </div>
+        </form>
+    </div>
+</ng-template>
+<div *ngIf="companyrate.company.ratings.length">
+    <h4>All Ratings</h4>
+</div>
+    <div *ngFor="let r of companyrate.company.ratings">
+    <p>{{r?.dateTime|date:'medium'}}</p>
+    
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Compensation</th>
+            <th>Working conditions</th>
+            <th>Career</th>
+            <th>Project</th>
+            <th>Loyalty</th>
+            <th>Total</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr >
+            <td>{{r?.grade1}}</td>
+            <td>{{r?.grade2}}</td>
+            <td>{{r?.grade3}}</td>
+            <td>{{r?.grade4}}</td>
+            <td>{{r?.grade5}}</td>
+            <td>{{r?.total}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>

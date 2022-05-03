@@ -1,21 +1,23 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
+using DataAccess.Models;
+using DTO.ModelViewsObjects;
 using Microsoft.AspNetCore.Mvc;
-using CompanyRatingProject.Models;
 using Services.ServicesInterfaces;
 
 namespace CompanyRatingProject.Controllers;
 
+
+[ApiController]
+[Route("[controller]")]
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
     private readonly IHomeService _homeService;
     private readonly ICheckUserService _checkUserService;
     private readonly ILoginValidationService _loginValidationService;
 
 
-    public HomeController(ILogger<HomeController> logger,IHomeService homeService,ILoginValidationService loginValidationService,ICheckUserService checkUserService)
+    public HomeController(IHomeService homeService,ILoginValidationService loginValidationService,ICheckUserService checkUserService)
     {
-        _logger = logger;
         _homeService = homeService;
         _loginValidationService = loginValidationService;
         _checkUserService = checkUserService;
@@ -23,33 +25,30 @@ public class HomeController : Controller
 
 
    
-    
-    public IActionResult Index(string top, string current, string searchString, int? pageNumber)
+    [HttpGet]
+    public IActionResult Index()
+    {
+        return View();
+    }
+    [Route("Get")]
+    public Pagination<CompanyDto> Get(string? top, string? current, string? searchString, int? pageNumber)
     {
         var show =_homeService.ShowCompanies(top, current,searchString,pageNumber);
         _checkUserService.CheckUser(HttpContext);
-        return View(show);
-    }
-
-    [HttpGet("login")]
-    public IActionResult Login()
-    {
-        _checkUserService.CheckUser(HttpContext);
-        return View();
+        return show;
     }
 
     [HttpPost("login")]
-    public IActionResult Validate(string username, string password)
+    public IActionResult Validate([FromBody]UserForLogin user)
     {
-        var valid = _loginValidationService.IsValid(username, password, HttpContext);
+        var valid = _loginValidationService.IsValid(user.Login, user.Password, HttpContext);
             if (valid)
             {
-                return RedirectToAction("Index");
+                return Ok(new AuthResponse{IsAuth = true});
             }
             else
             {
-                TempData["Error"] = "Incorrect login or password";
-                return View("Login") ;
+                return Unauthorized("Incorrect login or password");
             }
     }
 }

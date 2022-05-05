@@ -49,13 +49,13 @@ public class HomeServicesTests
     [TestCase(null,null,"2",null)]
     public void ShowCompanies_PaginationTerms_ShouldReturnRightCompanies(string top, string current, string searchString, int? pageNumber)
     {
-        var companies =_homeService.ShowCompanies(top, current, searchString, pageNumber);
+        var companies =_homeService.ShowCompanies(top, searchString, pageNumber);
         var y = (((companies.PageIndex - 1) * companies.PageSize) + 1).ToString();
         if (!searchString.IsNullOrEmpty())
         {
             y = searchString;
         }
         
-        Assert.AreEqual(companies[0].Name,y);
+        Assert.AreEqual(companies.Companies[0].Name,y);
     }
 }

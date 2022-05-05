@@ -40,15 +40,11 @@ export class HomeLoginComponent implements OnInit {
             password: login.password
         }
         this.homedataservice.Login(userForAuth).subscribe((res)=>{
-                    this.authGuard.sendAuthStateChange(res.isAuth)
-            debugger;
-                
+            sessionStorage.setItem('username','test')
             this._router.navigate([this._returnUrl]);
-            debugger;
             },
             (error:any) => {
                 this.errorMessage = error.error;
-                debugger;
                 this.showError = true;})
     }
 }

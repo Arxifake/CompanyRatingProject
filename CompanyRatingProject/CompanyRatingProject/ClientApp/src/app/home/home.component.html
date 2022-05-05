@@ -1,15 +1,15 @@
-<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+<nav class="navbar navbar-expand-md navbar-dark bg-dark" xmlns="http://www.w3.org/1999/html">
     <div class="collapse navbar-collapse">
         <ul class="navbar-nav mr-auto top-list">
-            <li class="nav-item top-btm"><button class="btn-group btn-list" (click)="loadCompanies('top10',null)">TOP 10</button></li>
-            <li class="nav-item top-btm"><button class="btn-group btn-list " (click)="loadCompanies('top25',null)">TOP 25</button></li>
-            <li class="nav-item top-btm"><button class="btn-group btn-list " (click)="loadCompanies('top50',null)">TOP 50</button></li>
-            <li class="nav-item active top-btm"><button class="btn-group btn-list" (click)="loadCompanies('all',null)">All</button></li>
-            <li class="nav-item top-btm"><button class="btn-group btn-list" [routerLink]="['/addCompany']">Add Company</button></li>
+            <li class="nav-item top-btm"><button class="btn-group btn-list" (click)="loadCompanies('top10',null,null)">TOP 10</button></li>
+            <li class="nav-item top-btm"><button class="btn-group btn-list " (click)="loadCompanies('top25',null,null)">TOP 25</button></li>
+            <li class="nav-item top-btm"><button class="btn-group btn-list " (click)="loadCompanies('top50',null,null)">TOP 50</button></li>
+            <li class="nav-item active top-btm"><button class="btn-group btn-list" (click)="loadCompanies('all',null,null)">All</button></li>
+            <li *ngIf="readSessionStorageValue('username')" class="nav-item top-btm"><button class="btn-group btn-list" [routerLink]="['/addCompany']">Add Company</button></li>
         </ul>
         <form class="my-2 my-lg-0 search">
             <input  class="form-control me-sm-2" type="text" placeholder="Search" aria-label="Search" [(ngModel)]="search" name="SearchString"/>
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit"(click)="loadCompanies(null,search)">Search</button>
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit"(click)="loadCompanies(null,search,null)">Search</button>
         </form>
     </div>
 </nav>
@@ -25,14 +25,20 @@
         </tr>
         </thead>
         <tbody>
-       <tr *ngFor="let c of companies; let idx =index">
-           <td>{{idx+1}}</td>
+       <tr *ngFor="let c of page.companies; let idx =index">
+           <td>{{idx+1+(page.pageIndex-1)*page.pageSize}}</td>
            <td><a [routerLink]="['/company/'+c.id]"> {{c?.name}}</a></td>
            <td>{{c?.description}}</td>
            <td>{{c?.totalAvg}}</td>
-           <td><a [routerLink]="['/editCompany/'+c.id]">Edit</a></td>
-           <td><a [routerLink]="['/deleteCompany/'+c.id]">Delete</a></td>
+           <td *ngIf="readSessionStorageValue('username')"><a [routerLink]="['/editCompany/'+c.id]">Edit</a></td>
+           <td *ngIf="readSessionStorageValue('username')"><a [routerLink]="['/deleteCompany/'+c.id]">Delete</a></td>
        </tr>
         </tbody>
     </table>
+</div>
+<div>
+    <button [disabled]="!page.hasPrevPage" class="btn" (click)="loadCompanies(page.top,page.searchString,1)">First Page</button>
+    <button [disabled]="!page.hasPrevPage" class="btn" (click)="loadCompanies(page.top,page.searchString,page.pageIndex-1)">Previous</button>
+    <button [disabled]="!page.hasNextPage" class="btn" (click)="loadCompanies(page.top,page.searchString,page.pageIndex+1)">Next</button>
+    <button [disabled]="!page.hasNextPage" class="btn" (click)="loadCompanies(page.top,page.searchString,page.totalPages)">Last Page</button>
 </div>

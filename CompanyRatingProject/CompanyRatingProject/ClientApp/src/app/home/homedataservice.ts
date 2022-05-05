@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import { UserForLogin } from '../DTO/UserForLogin';
 import {Observable} from "rxjs";
 import {Subject} from "rxjs";
@@ -11,20 +11,38 @@ export class HomeDataService{
     constructor(private http:HttpClient) {
     }
     Get(top,searchString,pageNumber):Observable<any>{
-        if (searchString!=null){
-            return this.http.get(this.url + 'Get?searchString='+searchString);
-        }
-        if (top==null&&pageNumber==null){
+        var params= {top:top,searchString:searchString,pageNumber:pageNumber}
+            //if(top!=null){params.set(top,top)}
+            //if(searchString!=null){params.set(searchString,searchString)}
+            //if(pageNumber!=null){params.set(pageNumber,pageNumber)}
+            //debugger;
+        return this.http.get(this.url+'Get',{params:params});
+        if (top==null&&searchString==null&&pageNumber==null)
+        {
             return this.http.get(this.url+'Get');
         }
-        if (top==null&&pageNumber!=null){
-            return this.http.get(this.url+'Get?pageNumber'+pageNumber);
-        }
-        if (top!=null&&pageNumber==null){
-            return this.http.get(this.url+'Get?top='+top);
-        }
-        else {
-            return this.http.get(this.url+'Get?top='+top+'&pageNumber'+pageNumber);
+        else 
+        {
+            if (top!=null)
+            {
+                if (pageNumber!=null)
+                {
+                    return this.http.get(this.url+'Get?top='+top+'&pageNumber='+pageNumber);
+                }
+                else return this.http.get(this.url+'Get?top='+top);
+            }
+            else
+            {
+                if (searchString!=null)
+                {
+                    if (pageNumber!=null)
+                    {
+                        return this.http.get(this.url+'Get?searchString='+searchString+'&pageNumber='+pageNumber);
+                    }
+                    else return this.http.get(this.url + 'Get?searchString='+searchString);
+                }
+                else return this.http.get(this.url+'Get?pageNumber='+pageNumber);
+            }
         }
     }
     Login(body:UserForLogin)

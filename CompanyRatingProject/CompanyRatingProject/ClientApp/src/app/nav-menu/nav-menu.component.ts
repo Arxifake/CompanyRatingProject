@@ -10,11 +10,9 @@ import {AuthGuard} from "../AuthGuard/AuthGuard";
 })
 export class NavMenuComponent {
   isExpanded = false;
-  Auth:boolean;
   constructor(private _service:AuthGuard) {
   }
   ngOnInit():void{
-    this._service._authChanged.subscribe(res=>{this.Auth=res;})
   }
 
   collapse() {
@@ -23,5 +21,8 @@ export class NavMenuComponent {
 
   toggle() {
     this.isExpanded = !this.isExpanded;
+  }
+  readSessionStorageValue(key) {
+    return sessionStorage.getItem(key);
   }
 }

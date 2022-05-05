@@ -19,3 +19,6 @@ html {
 .navbar{
   min-height: 100px;
 }
+.login{
+  float: right;
+}

@@ -99,7 +99,5 @@ public class CompanyService:ICompanyService
         _logger.LogInformation($"User with id {context.Request.Cookies["user_id"]} delete company with id {id}");
         _companiesRepository.DeleteCompany(id);
     }
-
-    
 }
 

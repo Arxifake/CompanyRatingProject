@@ -32,4 +32,5 @@ export class CompanyDataService{
         debugger;
         return this.http.post<string>(this.url+'DeleteCompany',id)
     }
+    
 }

@@ -31,9 +31,9 @@ public class HomeController : Controller
         return View();
     }
     [Route("Get")]
-    public Pagination<CompanyDto> Get(string? top, string? current, string? searchString, int? pageNumber)
+    public Page Get(string? top, string? searchString, int? pageNumber)
     {
-        var show =_homeService.ShowCompanies(top, current,searchString,pageNumber);
+        var show =_homeService.ShowCompanies(top,searchString,pageNumber);
         _checkUserService.CheckUser(HttpContext);
         return show;
     }

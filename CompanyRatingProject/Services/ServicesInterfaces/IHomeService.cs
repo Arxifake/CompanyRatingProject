@@ -4,6 +4,6 @@ namespace Services.ServicesInterfaces;
 
 public interface IHomeService
 {
-    public Pagination<CompanyDto> ShowCompanies(string top, string current, string searchString, int? pageNumber);
+    public Page ShowCompanies(string top, string searchString, int? pageNumber);
     
 }

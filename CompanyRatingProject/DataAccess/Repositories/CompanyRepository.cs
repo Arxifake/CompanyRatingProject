@@ -11,12 +11,12 @@ public class CompanyRepository:ICompaniesRepository
     private readonly IMongoCollection<Rating> _ratingTable;
 
 
-    public CompanyRepository(string connection)
+    public CompanyRepository(string connection,string database)
     { 
         var client = new MongoClient(connection);
-        var database = client.GetDatabase("CompanyRating");
-        _companyTable = database.GetCollection<Company>("Companies");
-        _ratingTable = database.GetCollection<Rating>("Ratings");
+        var db = client.GetDatabase(database);
+        _companyTable = db.GetCollection<Company>("Companies");
+        _ratingTable = db.GetCollection<Rating>("Ratings");
     }
     public List<Company> CompanyList()
     {

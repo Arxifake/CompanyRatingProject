@@ -16,8 +16,8 @@ public class UserRepositoryTest
     {
         List <User> users = new List<User>()
         {
-            new User(){Nickname = "1"},new User(){Nickname = "2"},
-            new User(){Nickname = "3"},new User(){Nickname = "4"}
+            new User(){Id = "111111111111111111111111",Nickname = "1"},new User(){Id = "222222222222222222222222",Nickname = "2"},
+            new User(){Id = "333333333333333333333333",Nickname = "3"},new User(){Id = "444444444444444444444444",Nickname = "4"}
         };
         return users;
     }
@@ -33,22 +33,18 @@ public class UserRepositoryTest
     public void SetUp()
     {
         _base = new TestDataBase();
-        _base.Init();
-        _base.CreateDatabase();
-        _base.CreateTableUsers();
-        _base.CreateProceduresForUsers();
-        _base.InsertIntoUsers(Users());
-        _usersRepository = new UsersRepository(_base._connectionString);
+        _base.AddUsers(Users());
+        _usersRepository = new UserRepository("mongodb://localhost:27017/",_base._databaseName);
     }
 
     [OneTimeTearDown]
     public void TearDown()
     {
-        _base.DeleteDb();
+        _base.Dispose();
     }
 
     [Test]
-    public void GetUsers_GetList_GetListUsers()
+    public void AGetUsers_GetList_GetListUsers()
     {
         var users = _usersRepository.UsersList();
         var usersList = Users();
@@ -57,17 +53,17 @@ public class UserRepositoryTest
         Assert.AreEqual(users.Count(),Users().Count());
     }
     [Test]
-    [TestCase(2)]
-    [TestCase(3)]
-    [TestCase(1)]
-    public void GetUserById_UserId_UserWithThatId(int id)
+    [TestCase("222222222222222222222222")]
+    [TestCase("333333333333333333333333")]
+    [TestCase("111111111111111111111111")]
+    public void BGetUserById_UserId_UserWithThatId(string id)
     {
         var user =_usersRepository.GetUserById(id);
         Assert.AreEqual(user.Id,id);
     }
     [Test]
     [TestCaseSource(nameof(UsersForAdd))]
-    public void AddUser_User_UserAddToDb(User user)
+    public void CAddUser_User_UserAddToDb(User user)
     {
         _usersRepository.NewUser(user);
         var users = _usersRepository.UsersList();

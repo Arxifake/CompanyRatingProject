@@ -9,11 +9,11 @@ public class RatingRepository:IRatingsRepository
 {
     private readonly IMongoCollection<Rating> _ratingTable;
     
-    public RatingRepository(string connection)
+    public RatingRepository(string connection,string database)
     {
         var client = new MongoClient(connection);
-        var database = client.GetDatabase("CompanyRating");
-        _ratingTable = database.GetCollection<Rating>("Ratings");
+        var db = client.GetDatabase(database);
+        _ratingTable = db.GetCollection<Rating>("Ratings");
     }
 
     public List<Rating> GetRatingsByCompanyId(string id)

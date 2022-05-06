@@ -8,11 +8,11 @@ namespace DataAccess.Repositories;
 public class UserRepository:IUsersRepository
 {
     private readonly IMongoCollection<User> _userTable;
-    public UserRepository(string connection)
+    public UserRepository(string connection,string database)
     {
         var client = new MongoClient(connection);
-        var database = client.GetDatabase("CompanyRating");
-        _userTable = database.GetCollection<User>("Users");
+        var db = client.GetDatabase(database);
+        _userTable = db.GetCollection<User>("Users");
     }
     public List<User> UsersList()
     {

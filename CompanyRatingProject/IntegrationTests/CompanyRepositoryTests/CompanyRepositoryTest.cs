@@ -9,16 +9,20 @@ namespace IntegrationTests.CompanyRepositoryTests;
 
 public class CompanyRepositoryTest
 {
+    
     private ICompaniesRepository _companiesRepository;
     private TestDataBase _base;
+    private int i = 0;
+    private int j = 0;
+    private int k = 0;
 
-    private List<Company> Companies()
+    private static List<Company> Companies()
     {
         List<Company> companies = new List<Company>()
         {
-            new Company(){Name = "First",Description = "FirstDesc"},
-            new Company(){Name = "Second",Description = "SecondDesc"},
-            new Company(){Name = "Third",Description = "ThirdDesc"}
+            new Company(){Id = "111111111111111111111111",Name = "First",Description = "FirstDesc"},
+            new Company(){Id = "222222222222222222222222",Name = "Second",Description = "SecondDesc"},
+            new Company(){Id = "333333333333333333333333",Name = "Third",Description = "ThirdDesc"}
         };
         return companies;
     }
@@ -26,9 +30,9 @@ public class CompanyRepositoryTest
     {
         List<Company> companies = new List<Company>()
         {
-            new Company(){Id = 1,Name = "FirstEdit",Description = "FirstDesc"},
-            new Company(){Id = 2,Name = "SecondEdit",Description = "SecondDesc"},
-            new Company(){Id = 3,Name = "ThirdEdit",Description = "ThirdDesc"}
+            new Company(){Id = "111111111111111111111111",Name = "FirstEdit",Description = "FirstDesc"},
+            new Company(){Id = "222222222222222222222222",Name = "SecondEdit",Description = "SecondDesc"},
+            new Company(){Id = "333333333333333333333333",Name = "ThirdEdit",Description = "ThirdDesc"}
         };
         return companies;
     }
@@ -36,32 +40,30 @@ public class CompanyRepositoryTest
     {
         List<Company> companies = new List<Company>()
         {
-            new Company(){Name = "FirstAdd",Description = "FirstDesc"},
-            new Company(){Name = "SecondAdd",Description = "SecondDesc"},
-            new Company(){Name = "ThirdAdd",Description = "ThirdDesc"}
+            new Company(){Id = "444444444444444444444444",Name = "FirstAdd",Description = "FirstDesc"},
+            new Company(){Id = "555555555555555555555555",Name = "SecondAdd",Description = "SecondDesc"},
+            new Company(){Id = "666666666666666666666666",Name = "ThirdAdd",Description = "ThirdDesc"}
         };
         return companies;
     }
+
     [OneTimeSetUp]
     public void SetUp()
     {
         _base = new TestDataBase();
-        _base.Init();
-        _base.CreateDatabase();
-        _base.CreateTableCompanies();
-        _base.CreateProceduresForCompanies();
-        _base.InsertIntoCompanies(Companies());
-        _companiesRepository = new CompanyRepository(_base._connectionString);
+        _base.AddCompanies(Companies());
+        _companiesRepository = new CompanyRepository("mongodb://localhost:27017/",_base._databaseName);
     }
 
     [OneTimeTearDown]
     public void TearDown()
     {
-        _base.DeleteDb();
+        _base.Dispose();
     }
+    
 
     [Test]
-    public void CompanyList_GetCompanyListFromDB_GetList()
+    public void ACompanyList_GetCompanyListFromDB_GetList()
     {
         var companiesList = Companies();
         var companyList = _companiesRepository.CompanyList();
@@ -72,45 +74,52 @@ public class CompanyRepositoryTest
     }
 
     [Test]
-    [TestCase(1)]
-    [TestCase(3)]
-    [TestCase(2)]
-    public void GetCompanyById_GetCompany_GetCompanyWithRightId(int id)
+    [TestCase("111111111111111111111111")]
+    [TestCase("222222222222222222222222")]
+    [TestCase("333333333333333333333333")]
+    public void BGetCompanyById_GetCompany_GetCompanyWithRightId(string id)
     {
+        
         var companiesList = Companies();
         var getCompanyById = _companiesRepository.GetCompanyById(id);
-        Assert.AreEqual(getCompanyById.Name,companiesList[id-1].Name);
+        Assert.AreEqual(getCompanyById.Name,companiesList[i].Name);
+        i++;
     }
 
     [Test]
     [TestCaseSource(nameof(CompaniesForEdit))]
 
-    public void EditCompany_ChangeName_NameChanged(Company company)
+    public void CEditCompany_ChangeName_NameChanged(Company company)
     {
+        
         _companiesRepository.EditCompany(company);
         var editCompany = _companiesRepository.GetCompanyById(company.Id);
-        Assert.AreEqual(editCompany.Name,CompaniesForEdit()[company.Id-1].Name);
-        Assert.AreNotEqual(editCompany.Name,Companies()[company.Id-1].Name);
+        Assert.AreEqual(editCompany.Name,CompaniesForEdit()[j].Name);
+        Assert.AreNotEqual(editCompany.Name,Companies()[j].Name);
+        j++;
     }
     
     [Test]
-    [TestCase(1)]
-    public void DeleteCompany_Delete_LastCompaniesIdNotEquals(int id)
+    [TestCase("111111111111111111111111")]
+    [TestCase("222222222222222222222222")]
+    public void DeleteCompany_Delete_LastCompaniesIdNotEquals(string id)
     {
         _companiesRepository.DeleteCompany(id);
         var companyList = _companiesRepository.CompanyList();
         companyList.Reverse();
-        Assert.AreNotEqual(Companies()[id-1].Name,companyList[id-1].Name);
-        Assert.AreEqual(Companies()[id].Name,companyList[id-1].Name);
+        Assert.AreNotEqual(CompaniesForEdit()[k].Name,companyList.First().Name);
+        Assert.AreEqual(CompaniesForEdit()[k+1].Name,companyList.First().Name);
+        k++;
     }
-
     [Test]
     [TestCaseSource(nameof(CompaniesForAdd))]
-    public void CreateCompany_Create_CompanyAddToDb(Company company)
+    public void ECreateCompany_Create_CompanyAddToDb(Company company)
     {
         _companiesRepository.AddCompany(company);
         var companies = _companiesRepository.CompanyList();
         companies.Reverse();
         Assert.AreEqual(companies.Last().Name,company.Name);
     }
+
+    
 }

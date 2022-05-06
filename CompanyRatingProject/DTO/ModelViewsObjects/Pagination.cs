@@ -1,12 +1,13 @@
 namespace DTO.ModelViewsObjects;
 
-public class Pagination<T>:List<T>
+public class Pagination<T>
 {
     public int PageIndex { get; set; }
     public int TotalPages { get; set; }
     public int PageSize { get; set; }
     public string Top { get; set; }
     public string SearchString { get; set; }
+    public List<T> Companies { get; set; }
 
     public Pagination(List<T> items, int count, int pageIndex, int pageSize,string top, string searchString)
     {
@@ -15,7 +16,7 @@ public class Pagination<T>:List<T>
         PageIndex = pageIndex;
         PageSize = pageSize;
         TotalPages = (int) Math.Ceiling(count / (double) pageSize);
-        this.AddRange(items);
+        Companies=items;
     }
 
     public bool HasPrevPage => PageIndex > 1;

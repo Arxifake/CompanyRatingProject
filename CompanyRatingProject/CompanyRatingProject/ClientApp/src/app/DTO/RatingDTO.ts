@@ -1,4 +1,5 @@
 import {DatePipe} from "@angular/common";
+import {UserDTO} from "./UserDto";
 
 export class RatingDTO{
     constructor(
@@ -12,6 +13,7 @@ export class RatingDTO{
         public text?:string,
         public dateTime?:Date,
         public companyId?:string,
-        public userId?:string
+        public userId?:string,
+        public user?:UserDTO
     ) {}
 }

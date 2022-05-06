@@ -1,5 +1,6 @@
 using AutoMapper;
 using DataAccess.Interfaces;
+using DataAccess.Models;
 using DTO.ModelViewsObjects;
 using Microsoft.Extensions.Logging;
 using Services.ServicesInterfaces;
@@ -20,7 +21,7 @@ public class HomeService:IHomeService
         _mapper = mapper;
         _logger = logger;
     }
-    public Page ShowCompanies(string? top, string? searchString, int? pageNumber)
+    public Pagination<CompanyDto> ShowCompanies(string? top, string? searchString, int? pageNumber)
     {
         _logger.LogInformation("Enter in ShowCompanies method");
         
@@ -53,17 +54,7 @@ public class HomeService:IHomeService
         }
         _logger.LogInformation($"Return {companiesList.Count()} objects ");
          var pagination = Pagination<CompanyDto>.Create(companiesList, pageNumber ?? 1, _pageSize,top, searchString);
-         var list = new Page();
-         list.Companies = pagination;
-         
-         list.HasPrevPage= pagination.HasPrevPage;
-         list.HasNextPage= pagination.HasNextPage;
-         list.PageIndex= pagination.PageIndex;
-         list.TotalPages= pagination.TotalPages;
-         list.PageSize = pagination.PageSize;
-         list.Top = pagination.Top;
-         list.SearchString = pagination.SearchString;
-         return list;
+         return pagination;
 
     }
     

@@ -25,6 +25,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSpaStaticFiles(configuration=>configuration.RootPath="ClientApp/dist");
 builder.Services.AddControllersWithViews();
 string connection = "mongodb://localhost:27017/";
+string db = "CompanyRating";
 builder.Host.ConfigureLogging(logging =>
 {
     logging.ClearProviders();
@@ -37,9 +38,9 @@ var mappingConfig = new MapperConfiguration(mc =>
 
 IMapper mapper = mappingConfig.CreateMapper();
     builder.Services.AddSingleton(mapper);
-    builder.Services.AddSingleton<ICompaniesRepository>(_ => new CompanyRepository(connection));
-    builder.Services.AddSingleton<IRatingsRepository>(_ => new RatingRepository(connection));
-    builder.Services.AddSingleton<IUsersRepository>(_ => new UserRepository(connection));
+    builder.Services.AddSingleton<ICompaniesRepository>(_ => new CompanyRepository(connection,db));
+    builder.Services.AddSingleton<IRatingsRepository>(_ => new RatingRepository(connection,db));
+    builder.Services.AddSingleton<IUsersRepository>(_ => new UserRepository(connection,db));
     builder.Services.AddSingleton<INicknameRepository>(_ => new NicknameRepository(connection));
     builder.Services.AddSingleton<IHomeService,HomeService>();
     builder.Services.AddSingleton<ICompanyService,CompanyService>();

@@ -100,28 +100,29 @@
     <h4>All Ratings</h4>
 </div>
     <div *ngFor="let r of companyrate.company.ratings">
-    <p>{{r?.dateTime|date:'medium'}}</p>
+        <h4>{{r?.user.nickname}}</h4>
+        <p>{{r?.dateTime|date:'medium'}}</p>
     
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Compensation</th>
-            <th>Working conditions</th>
-            <th>Career</th>
-            <th>Project</th>
-            <th>Loyalty</th>
-            <th>Total</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr >
-            <td>{{r?.grade1}}</td>
-            <td>{{r?.grade2}}</td>
-            <td>{{r?.grade3}}</td>
-            <td>{{r?.grade4}}</td>
-            <td>{{r?.grade5}}</td>
-            <td>{{r?.total}}</td>
-        </tr>
-        </tbody>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Compensation</th>
+                    <th>Working conditions</th>
+                    <th>Career</th>
+                    <th>Project</th>
+                    <th>Loyalty</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr >
+                    <td>{{r?.grade1}}</td>
+                    <td>{{r?.grade2}}</td>
+                    <td>{{r?.grade3}}</td>
+                    <td>{{r?.grade4}}</td>
+                    <td>{{r?.grade5}}</td>
+                    <td>{{r?.total}}</td>
+            </tr>
+            </tbody>
     </table>
-</div>
+    </div>
